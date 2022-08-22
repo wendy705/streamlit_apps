@@ -54,7 +54,7 @@ def generate_title():
     num_tokens = len(inputs["input_ids"][0])
     print(f"Input has {num_tokens} tokens")
     max_input_length = 500
-    text_len = sum([i.strip(string.punctuation).isalpha() for i in text.split()]) - 15
+    text_len = sum([i.strip(string.punctuation).isalpha() for i in st_text_area.split()]) - 15
     num_spans = math.ceil(num_tokens / max_input_length)
     print(f"Input has {num_spans} spans")
     overlap = math.ceil((num_spans * max_input_length - num_tokens) / max(num_spans - 1, 1))
