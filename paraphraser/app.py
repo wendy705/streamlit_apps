@@ -4,7 +4,7 @@ import nltk
 import math
 import torch
 
-model_name = 
+model_name = Guen/t5-base-paraphraser
 max_input_length = 512
 
 st.header("Generate paraphrases for your sentence")
@@ -48,11 +48,13 @@ def generate_title():
     # tokenize text
     inputs = ["paraphrase: " + st_text_area]
     inputs = tokenizer(inputs, return_tensors="pt")
+    
 
     # compute span boundaries
     num_tokens = len(inputs["input_ids"][0])
     print(f"Input has {num_tokens} tokens")
     max_input_length = 500
+    text_len = sum([i.strip(string.punctuation).isalpha() for i in text.split()]) - 15
     num_spans = math.ceil(num_tokens / max_input_length)
     print(f"Input has {num_spans} spans")
     overlap = math.ceil((num_spans * max_input_length - num_tokens) / max(num_spans - 1, 1))
@@ -81,11 +83,22 @@ def generate_title():
     }
 
     # compute predictions
-    outputs = model.generate(**inputs, do_sample=True, temperature=temperature)
-    decoded_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True)
-    predicted_titles = [nltk.sent_tokenize(decoded_output.strip())[0] for decoded_output in decoded_outputs]
+    outputs = model.generate(**inputs, do_sample=True, min_length = text_len, temperature =temperature, early_stopping=True, max_length = 256, num_return_sequences=num_gen)
+    
+    results = ""
+    final_outputs = []
+    for beam_output in outputs:
+        sent = tokenizer.decode(beam_output, skip_special_tokens=True, clean_up_tokenization_spaces=True)
+        if sent.lower() != prompt.lower() and sent not in final_outputs:
+            nltk.sent_tokenize(sent.strip())[0]
+            final_outputs.append(sent)
+            #print(final_outputs)
+            results.join(final_outputs)
+    
+#     decoded_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True)
+#     predicted_titles = [nltk.sent_tokenize(decoded_output.strip())[0] for decoded_output in decoded_outputs]
 
-    st.session_state.titles = predicted_titles
+    st.session_state.titles = final_outputs
 
 # generate title button
 st_generate_button = st.button('Generate paraphrase', on_click=generate_title)
