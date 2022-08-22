@@ -4,7 +4,7 @@ import nltk
 import math
 import torch
 
-model_name = Guen/t5-base-paraphraser
+model_name = "Guen/t5-base-paraphraser"
 max_input_length = 512
 
 st.header("Generate paraphrases for your sentence")
