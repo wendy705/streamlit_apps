@@ -16,8 +16,9 @@ st_model_load = st.text('Loading the model...')
 @st.cache(allow_output_mutation=True)
 def load_model():
     print("Loading model...")
+    access_token = "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"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name, use_auth_token=access_token)
     nltk.download('punkt')
     print("Model loaded!")
     return tokenizer, model
