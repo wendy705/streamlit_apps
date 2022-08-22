@@ -2,3 +2,4 @@ nltk
 torch
 transformers
 sentencepiece
+string
