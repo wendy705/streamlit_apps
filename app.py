@@ -145,8 +145,7 @@ def generate_beam_title():
     }
 
     # compute predictions
-    batch = tokenizer(prompt, truncation=True, padding='longest',
-                            return_tensors="pt"
+    batch = tokenizer(prompt, truncation=True, padding='longest', return_tensors="pt")
     prediction = model.generate(**batch, num_beams=num_titles,
                                       num_return_sequences=n_gens, temperature=temperature)
     results = tokenizer.batch_decode(prediction, skip_special_tokens=True)
