@@ -93,7 +93,7 @@ def generate_title():
     final_outputs = []
     for beam_output in outputs:
         sent = tokenizer.decode(beam_output, skip_special_tokens=True, clean_up_tokenization_spaces=True)
-        if sent.lower() != prompt.lower() and sent not in final_outputs:
+        if sent.lower() != st_text_area.lower() and sent not in final_outputs:
             nltk.sent_tokenize(sent.strip())[0]
             final_outputs.append(sent)
             #print(final_outputs)
