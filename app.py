@@ -52,7 +52,7 @@ def generate_title():
     # tokenize text
     inputs = ["paraphrase: " + st_text_area]
     inputs = tokenizer(inputs, return_tensors="pt")
-    text_len = sum([i.strip(string.punctuation).isalpha() for i in inputs.split()]) - 15
+    text_len = sum([i.strip(string.punctuation).isalpha() for i in st_text_area.split()]) - 15
 
     
 
