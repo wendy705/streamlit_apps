@@ -57,39 +57,39 @@ def generate_title():
     
 
     # compute span boundaries
-#     num_tokens = len(inputs["input_ids"][0])
-#     print(f"Input has {num_tokens} tokens")
-#     max_input_length = 500
-#     num_spans = math.ceil(num_tokens / max_input_length)
-#     print(f"Input has {num_spans} spans")
-#     overlap = math.ceil((num_spans * max_input_length - num_tokens) / max(num_spans - 1, 1))
-#     spans_boundaries = []
-#     start = 0
-#     for i in range(num_spans):
-#         spans_boundaries.append([start + max_input_length * i, start + max_input_length * (i + 1)])
-#         start -= overlap
-#     print(f"Span boundaries are {spans_boundaries}")
-#     spans_boundaries_selected = []
-#     j = 0
-#     for _ in range(num_titles):
-#         spans_boundaries_selected.append(spans_boundaries[j])
-#         j += 1
-#         if j == len(spans_boundaries):
-#             j = 0
-#     print(f"Selected span boundaries are {spans_boundaries_selected}")
+    num_tokens = len(inputs["input_ids"][0])
+    print(f"Input has {num_tokens} tokens")
+    max_input_length = 500
+    num_spans = math.ceil(num_tokens / max_input_length)
+    print(f"Input has {num_spans} spans")
+    overlap = math.ceil((num_spans * max_input_length - num_tokens) / max(num_spans - 1, 1))
+    spans_boundaries = []
+    start = 0
+    for i in range(num_spans):
+        spans_boundaries.append([start + max_input_length * i, start + max_input_length * (i + 1)])
+        start -= overlap
+    print(f"Span boundaries are {spans_boundaries}")
+    spans_boundaries_selected = []
+    j = 0
+    for _ in range(num_titles):
+        spans_boundaries_selected.append(spans_boundaries[j])
+        j += 1
+        if j == len(spans_boundaries):
+            j = 0
+    print(f"Selected span boundaries are {spans_boundaries_selected}")
 
-#     # transform input with spans
-#     tensor_ids = [inputs["input_ids"][0][boundary[0]:boundary[1]] for boundary in spans_boundaries_selected]
-#     tensor_masks = [inputs["attention_mask"][0][boundary[0]:boundary[1]] for boundary in spans_boundaries_selected]
+    # transform input with spans
+    tensor_ids = [inputs["input_ids"][0][boundary[0]:boundary[1]] for boundary in spans_boundaries_selected]
+    tensor_masks = [inputs["attention_mask"][0][boundary[0]:boundary[1]] for boundary in spans_boundaries_selected]
 
-#     inputs = {
-#         "input_ids": torch.stack(tensor_ids),
-#         "attention_mask": torch.stack(tensor_masks)
-#     }
+    inputs = {
+        "input_ids": torch.stack(tensor_ids),
+        "attention_mask": torch.stack(tensor_masks)
+    }
 
     # compute predictions
-    input_ids, attention_masks = inputs["input_ids"], inputs["attention_mask"]
-    outputs = model.generate(input_ids=input_ids, attention_mask=attention_masks, do_sample=True, min_length = text_len, temperature =temperature, early_stopping=True, max_length = 256, num_return_sequences=num_titles)
+    # input_ids, attention_masks = inputs["input_ids"], inputs["attention_mask"]
+    outputs = model.generate(**inputs, do_sample=True, min_length = text_len, temperature =temperature, early_stopping=True, max_length = 256, num_return_sequences=num_titles)
     
     results = ""
     final_outputs = []
