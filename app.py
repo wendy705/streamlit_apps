@@ -5,6 +5,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import nltk
 import math
 import torch
+import string
 
 model_name = "Guen/t5-base-paraphraser"
 max_input_length = 512
@@ -43,7 +44,7 @@ with st.sidebar:
 
 if 'text' not in st.session_state:
     st.session_state.text = ""
-st_text_area = st.text_area('Text to generate the title for', value=st.session_state.text, height=500)
+st_text_area = st.text_area('Text to generate the paraphrase for', value=st.session_state.text, height=500)
 
 def generate_title():
     st.session_state.text = st_text_area
