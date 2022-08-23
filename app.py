@@ -89,7 +89,7 @@ def generate_title():
 
     # compute predictions
     # input_ids, attention_masks = inputs["input_ids"], inputs["attention_mask"]
-    outputs = model.generate(**inputs, do_sample=True, min_length = text_len, temperature =temperature, early_stopping=True, max_length = 256, num_return_sequences=num_titles)
+    outputs = model.generate(**inputs, do_sample=True, min_length = text_len, temperature=temperature, early_stopping=True, max_length = 256, num_return_sequences=num_titles)
     
     results = ""
     final_outputs = []
