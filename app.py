@@ -156,7 +156,7 @@ def generate_beam_title():
     st.session_state.titles = final_outputs
 # generate title button
 st_generate_button = st.button('Generate paraphrase', on_click=generate_title)
-st_generate_button = st.button('Generate with beam search', on_click=generate_beam_title)
+st_generate_beam_button = st.button('Generate with beam search', on_click=generate_beam_title)
 
 
 # title generation labels
